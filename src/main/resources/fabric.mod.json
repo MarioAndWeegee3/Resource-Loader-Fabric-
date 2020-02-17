@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "resourceloader",
+  "version": "${version}",
+
+  "name": "Fabric Resource Loader",
+  "description": "Loads resources; a useful modpack utility",
+  "authors": [
+    "MarioAndWeegee3"
+  ],
+  "contact": {
+    "homepage": "https://marioandweegee3.github.io"
+  },
+
+  "license": "MIT",
+  "icon": "assets/resourceloader/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "marioandweegee3.resourceloader.ResourceLoader"
+    ]
+  },
+  "mixins": [
+    "resourceloader.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.2",
+    "minecraft": ">=1.15.2"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "marioandweegee3.resourceloader.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "MCClientMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
