@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,6 +18,7 @@ import net.minecraft.resource.DirectoryResourcePack;
 import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.resource.ResourcePackProfile.Factory;
 import net.minecraft.resource.ResourcePackProvider;
+import net.minecraft.resource.ResourcePackSource;
 
 @Environment(EnvType.CLIENT)
 public class LoadedPackProvider implements ResourcePackProvider {
@@ -50,7 +52,7 @@ public class LoadedPackProvider implements ResourcePackProvider {
         }
 
         String name = "Resource Loader pack";
-        T container = ResourcePackProfile.of(name, true, () -> new DirectoryResourcePack(packFolder), factory, ResourcePackProfile.InsertionPosition.TOP);
+        T container = ResourcePackProfile.of(name, true, () -> new DirectoryResourcePack(packFolder), factory, ResourcePackProfile.InsertionPosition.TOP, ResourcePackSource.PACK_SOURCE_BUILTIN);
         if(container != null){
             registry.put(name, container);
         } else {
@@ -58,4 +60,8 @@ public class LoadedPackProvider implements ResourcePackProvider {
         }
     }
 
+	@Override
+	public <T extends ResourcePackProfile> void register(Consumer<T> consumer, Factory<T> factory) {
+
+	}
 }

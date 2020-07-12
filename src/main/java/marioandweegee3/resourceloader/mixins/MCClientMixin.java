@@ -23,7 +23,7 @@ public abstract class MCClientMixin {
 
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/datafixer/Schemas;getFixer()Lcom/mojang/datafixers/DataFixer;"))
     private DataFixer registerLoader(){
-        this.resourcePackManager.registerProvider(new LoadedPackProvider());
+
         return Schemas.getFixer();
     }
 }

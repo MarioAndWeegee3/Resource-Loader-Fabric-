@@ -9,7 +9,7 @@ import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 public class ResourceLoader implements ClientModInitializer {
-    private static Logger logger = LogManager.getLogger("resourceloader");
+    private static final Logger logger = LogManager.getLogger("resourceloader");
 
     @Override
     public void onInitializeClient() {
