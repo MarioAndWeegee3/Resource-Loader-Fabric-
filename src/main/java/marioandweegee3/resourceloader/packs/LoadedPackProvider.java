@@ -23,16 +23,16 @@ import net.minecraft.resource.ResourcePackSource;
 @Environment(EnvType.CLIENT)
 public class LoadedPackProvider implements ResourcePackProvider {
     private final File packFolder;
-    
+
     public LoadedPackProvider(){
         packFolder = new File(FabricLoader.getInstance().getGameDirectory(), "resources");
     }
 
     @Override
-    public <T extends ResourcePackProfile> void register(Map<String, T> registry, Factory<T> factory) {
+    public <T extends ResourcePackProfile> void register(Consumer<T> consumer, Factory<T> factory) {
         if (!this.packFolder.isDirectory()) {
             this.packFolder.mkdirs();
-            
+
             File metaFile = new File(packFolder, "pack.mcmeta");
             JsonObject object = new JsonObject();
             JsonObject pack = new JsonObject();
@@ -54,14 +54,9 @@ public class LoadedPackProvider implements ResourcePackProvider {
         String name = "Resource Loader pack";
         T container = ResourcePackProfile.of(name, true, () -> new DirectoryResourcePack(packFolder), factory, ResourcePackProfile.InsertionPosition.TOP, ResourcePackSource.PACK_SOURCE_BUILTIN);
         if(container != null){
-            registry.put(name, container);
+            consumer.accept(container);
         } else {
             ResourceLoader.log("Error loading resources");
         }
     }
-
-	@Override
-	public <T extends ResourcePackProfile> void register(Consumer<T> consumer, Factory<T> factory) {
-
-	}
 }
