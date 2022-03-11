@@ -3,7 +3,6 @@ package marioandweegee3.resourceloader.packs;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Map;
 import java.util.function.Consumer;
 
 import com.google.gson.Gson;
@@ -25,18 +24,18 @@ public class LoadedPackProvider implements ResourcePackProvider {
     private final File packFolder;
 
     public LoadedPackProvider(){
-        packFolder = new File(FabricLoader.getInstance().getGameDirectory(), "resources");
+        packFolder = new File(FabricLoader.getInstance().getGameDir().toFile(), "resources");
     }
 
     @Override
-    public <T extends ResourcePackProfile> void register(Consumer<T> consumer, Factory<T> factory) {
+    public void register(Consumer<ResourcePackProfile> consumer, Factory factory) {
         if (!this.packFolder.isDirectory()) {
             this.packFolder.mkdirs();
 
             File metaFile = new File(packFolder, "pack.mcmeta");
             JsonObject object = new JsonObject();
             JsonObject pack = new JsonObject();
-            pack.addProperty("pack_format", 5);
+            pack.addProperty("pack_format", 8);
             pack.addProperty("description", "Resource Loader pack");
             object.add("pack", pack);
 
@@ -52,11 +51,12 @@ public class LoadedPackProvider implements ResourcePackProvider {
         }
 
         String name = "Resource Loader pack";
-        T container = ResourcePackProfile.of(name, true, () -> new DirectoryResourcePack(packFolder), factory, ResourcePackProfile.InsertionPosition.TOP, ResourcePackSource.PACK_SOURCE_BUILTIN);
-        if(container != null){
+        ResourcePackProfile container = ResourcePackProfile.of(name, true, () -> new DirectoryResourcePack(packFolder), factory, ResourcePackProfile.InsertionPosition.TOP, ResourcePackSource.PACK_SOURCE_BUILTIN);
+        if (container != null) {
             consumer.accept(container);
         } else {
             ResourceLoader.log("Error loading resources");
         }
+
     }
 }
